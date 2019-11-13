@@ -5,7 +5,17 @@ data APIs. We hope to bring you a real API one day.
 
 ### Usage
 
-`heroku data-api GET /client/v11/databases/postgresql-triangular-89732`
+**GET Request**
+```
+heroku data-api GET /client/v11/databases/postgresql-triangular-89732
+```
+
+**POST Request**
+```
+echo "{\"name\": \"readonly\"}" | heroku data-api POST /postgres/v0/databases/postgresql-triangular-89732/credentials
+```
+
+**Dev Environments**
 
 A custom host (instead of `postgres-api.heroku.com`) can be set with the
 `HEROKU_DATA_HOST` environment variable, e.g.:
