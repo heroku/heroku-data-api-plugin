@@ -31,7 +31,8 @@ Example:
   needsAuth: true,
   args: [
     { name: 'method', description: 'GET, POST, PUT, PATCH, or DELETE', optional: false },
-    { name: 'path', description: 'endpoint to call', optional: false }
+    { name: 'path', description: 'endpoint to call', optional: false },
+    { name: 'data', description: 'data to send', optional: true }
   ],
   run: cli.command({ preauth: true }, co.wrap(function * (context, heroku) {
     const request = {
@@ -40,7 +41,13 @@ Example:
       host: util.host()
     }
     if (['PATCH', 'PUT', 'POST'].includes(request.method)) {
-      const body = yield fs.readFile('/dev/stdin', 'utf8')
+      let data = '/dev/stdin'
+
+      if (context.args.data !== undefined) {
+        data = context.args.data
+      }
+
+      const body = yield fs.readFile(data, 'utf8')
       let parsedBody
       try {
         parsedBody = JSON.parse(body)
