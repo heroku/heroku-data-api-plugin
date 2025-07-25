@@ -30,8 +30,12 @@ A custom host (instead of `postgres-api.heroku.com`) can be set with the
 
 ### Installation
 
-```bash
-$ heroku plugins:install heroku-data-api
+```shell
+yarn config set ignore-engines true -g
+npm install --legacy-peer-deps
+heroku plugins:link .
+yarn config set ignore-engines false -g
+```
 ```
 
 #### Update
