@@ -18,6 +18,9 @@ the response unmodified on stdout.
 Method name input will be upcased, so both 'heroku api GET /apps' and
 'heroku api get /apps' are valid commands.
 
+If username and password are provided, they will be used for HTTP basic
+authentication.
+
 Example:
 
     $ heroku data-api GET /client/v11/databases/postgresql-triangular-89732
@@ -26,6 +29,8 @@ Example:
       "name": "postgresql-triangular-89732",
       …
     }
+
+    $ heroku data-api GET /client/v11/databases/postgresql-triangular-89732 --username myuser --password mypass
 `,
   needsApp: false,
   needsAuth: true,
@@ -33,12 +38,25 @@ Example:
     { name: 'method', description: 'GET, POST, PUT, PATCH, or DELETE', optional: false },
     { name: 'path', description: 'endpoint to call', optional: false }
   ],
+  flags: [
+    { name: 'username', char: 'u', description: 'username for HTTP basic authentication', hasValue: true },
+    { name: 'password', char: 'p', description: 'password for HTTP basic authentication', hasValue: true }
+  ],
   run: cli.command({ preauth: true }, co.wrap(function * (context, heroku) {
     const request = {
       method: context.args.method.toUpperCase(),
       path: context.args.path,
       host: util.host()
     }
+    
+    // Add HTTP basic authentication if username and password are provided
+    if (context.flags.username && context.flags.password) {
+      const credentials = Buffer.from(`${context.flags.username}:${context.flags.password}`).toString('base64')
+      request.headers = {
+        'Authorization': `Basic ${credentials}`
+      }
+    }
+    
     if (['PATCH', 'PUT', 'POST'].includes(request.method)) {
       const body = yield fs.readFile('/dev/stdin', 'utf8')
       let parsedBody

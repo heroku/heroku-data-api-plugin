@@ -15,6 +15,12 @@ heroku data-api GET /client/v11/databases/postgresql-triangular-89732
 echo "{\"name\": \"readonly\"}" | heroku data-api POST /postgres/v0/databases/postgresql-triangular-89732/credentials
 ```
 
+**POST Request with Basic Auth**
+To mimic interactions between the addons API and Shogun
+```
+echo "{\"name\": \"credential:test-user\"}" | heroku data-api POST /addons/heroku-postgresql-cpurcell/heroku/resources/959ce918-0c36-4a2c-915b-1a54910178df/namespaces --username heroku-postgresql-cpurcell --password <redacted>
+```
+
 **Dev Environments**
 
 A custom host (instead of `postgres-api.heroku.com`) can be set with the
