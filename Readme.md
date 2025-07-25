@@ -36,12 +36,12 @@ npm install --legacy-peer-deps
 heroku plugins:link .
 yarn config set ignore-engines false -g
 ```
-```
+
 
 #### Update
 
 ```bash
-$ heroku plugins:update heroku-data-api
+$ git pull origin main
 ```
 
 ## THIS IS BETA SOFTWARE
