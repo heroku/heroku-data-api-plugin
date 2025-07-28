@@ -1,4 +1,8 @@
+<h1>⚠️ DEPCRECATED ⚠️</h1>
+This plugin is deprecated as of July 28, 2025
+
 # heroku-data-api-plugin
+
 
 A Heroku plugin to communicate with the undocumented, internal, unstable
 data APIs. We hope to bring you a real API one day.
